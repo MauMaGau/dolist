@@ -19,7 +19,7 @@ class PostsController extends \BaseController {
 	{
 		$posts = $this->post->get();
 
-        return View::make('posts/index', compact('posts'));
+        return View::make('posts.index', compact('posts'));
 	}
 
 	/**
@@ -30,7 +30,11 @@ class PostsController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		if(!Auth::check()){
+            App::abort(404);
+        }
+
+        return View::make('posts.create');
 	}
 
 	/**
