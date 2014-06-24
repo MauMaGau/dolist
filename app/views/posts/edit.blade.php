@@ -1,0 +1,1 @@
+C:\wamp\www\dolist\app/views/posts/edit.blade.php
