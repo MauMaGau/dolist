@@ -61,4 +61,9 @@
             </div>
     {{ Form::close() }}
 
+    @if($post->id)
+        {{ Form::open(array('route' => array('posts.destroy', $post->id), 'method' => 'delete')) }}
+                <button type="submit" href="{{ URL::route('posts.destroy', $post->id) }}" class="btn btn-danger btn-xs">Delete</button>
+        {{ Form::close() }}
+    @endif
 @stop
