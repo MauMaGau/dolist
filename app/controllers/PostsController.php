@@ -52,7 +52,7 @@ class PostsController extends \BaseController {
         }
 
 		$validation = Validator::make(
-            Input::all(),
+            Input::except('created_at'),
             ['title' => 'required']
         );
 
