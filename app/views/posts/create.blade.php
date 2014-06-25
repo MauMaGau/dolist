@@ -24,6 +24,13 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="inputCreatedAt" class="col-sm-2 control-label">Created At:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="created_at" id="inputCreatedAt" class="form-control" value="{{ $post->created_at ?: Input::old('created_at')}}">
+                </div>
+            </div>
+
 
             <div class="form-group">
                 <div class="btn-group col-sm-10 col-sm-offset-2">

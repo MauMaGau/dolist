@@ -18,7 +18,16 @@
                         </ul>
                     </div>
                 </nav>
+            @else
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{ URL::route('posts.index') }}">All Posts</a></li>
+                        </ul>
+                    </div>
+                </nav>
             @endif
+
 
             @yield('content')
         </div>

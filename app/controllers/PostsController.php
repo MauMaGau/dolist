@@ -123,6 +123,7 @@ class PostsController extends \BaseController {
         $post->title = Input::get('title');
         $post->link = Input::get('link');
         $post->body = Input::get('body');
+        $post->created_at = Input::get('created_at');
         $post->save();
 
         return Redirect::route('posts.edit', $id);
