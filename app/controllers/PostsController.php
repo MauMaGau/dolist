@@ -17,7 +17,7 @@ class PostsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$posts = $this->post->get();
+		$posts = $this->post->orderBy('created_at', 'desc')->get();
 
         return View::make('posts.index', compact('posts'));
 	}
@@ -34,7 +34,9 @@ class PostsController extends \BaseController {
             App::abort(404);
         }
 
-        return View::make('posts.create');
+        $post = $this->post;
+
+        return View::make('posts.create', compact('post'));
 	}
 
 	/**
@@ -45,7 +47,22 @@ class PostsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+        if(!Auth::check()){
+            App::abort(404);
+        }
+
+		$validation = Validator::make(
+            Input::all(),
+            ['title' => 'required']
+        );
+
+        if($validation->fails()) {
+            return Redirect::route('posts.create')->withInput()->withErrors($validation);
+        }
+
+        $post = $this->post->create(Input::all());
+
+        return Redirect::route('posts.edit', [$post->id]);
 	}
 
 	/**
@@ -71,7 +88,13 @@ class PostsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+        if(!Auth::check()){
+            App::abort(404);
+        }
+
+		$post = $this->post->find($id);
+
+        return View::make('posts.create', compact('post'));
 	}
 
 	/**
@@ -83,7 +106,26 @@ class PostsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		if(!Auth::check()){
+            App::abort(404);
+        }
+
+        $validation = Validator::make(
+            Input::all(),
+            ['title' => 'required']
+        );
+
+        if($validation->fails()) {
+            return Redirect::route('posts.create')->withInput()->withErrors($validation);
+        }
+
+        $post = $this->post->find($id);
+        $post->title = Input::get('title');
+        $post->link = Input::get('link');
+        $post->body = Input::get('body');
+        $post->save();
+
+        return Redirect::route('posts.edit', $id);
 	}
 
 	/**
