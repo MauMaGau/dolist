@@ -24,9 +24,7 @@
             @else
                 <nav class="navbar navbar-default">
                     <div class="container-fluid">
-                        <ul class="nav navbar-nav">
-                            <li><a href="{{ URL::route('posts.index') }}">All Posts</a></li>
-                        </ul>
+                        <a class="navbar-brand" href="#">All Posts</a>
                     </div>
                 </nav>
             @endif
