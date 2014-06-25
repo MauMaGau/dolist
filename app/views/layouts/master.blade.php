@@ -16,6 +16,9 @@
                             <li><a href="{{ URL::route('posts.index') }}">All Posts</a></li>
                             <li><a href="{{ URL::route('posts.create') }}">Create</a></li>
                         </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="{{ URL::to('logout') }}">Logout</a></li>
+                        </ul>
                     </div>
                 </nav>
             @else

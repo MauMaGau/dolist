@@ -25,3 +25,9 @@ Route::post('/login', function() {
 
     return Redirect::to('/login')->withInput(Input::except('password'))->withErrors(['authenticated'=>'Incorrect email or password']);
 });
+
+Route::get('/logout', function() {
+    Auth::logout();
+
+    return Redirect::route('posts.index');
+});
