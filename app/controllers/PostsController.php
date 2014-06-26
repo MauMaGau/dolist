@@ -3,10 +3,12 @@
 class PostsController extends \BaseController {
 
     protected $post;
+    protected $resource;
 
-    public function __construct(Post $post)
+    public function __construct(Post $post, Resource $resource)
     {
         $this->post = $post;
+        $this->resource = $resource;
     }
 
 	/**
@@ -52,7 +54,7 @@ class PostsController extends \BaseController {
         }
 
 		$validation = Validator::make(
-            Input::except('created_at'),
+            Input::except(['created_at', 'file']),
             ['title' => 'required']
         );
 
@@ -60,7 +62,19 @@ class PostsController extends \BaseController {
             return Redirect::route('posts.create')->withInput()->withErrors($validation);
         }
 
-        $post = $this->post->create(Input::all());
+        $post = $this->post->create(Input::except(['file','created_at']));
+
+        // Handle a file upload
+        if(Input::hasFile('file')){
+            $file = Input::file('file');
+            $file->move(public_path('uploads'), $file->getClientOriginalName());
+
+            $resource = $this->resource->create(
+                ['relative_path'=>$file->getClientOriginalName()]
+            );
+            $post->resource_id = $resource->id;
+            $post->save();
+        }
 
         return Redirect::route('posts.edit', [$post->id]);
 	}
@@ -74,7 +88,7 @@ class PostsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$post = $this->post->find($id);
+		$post = $this->post->with('Resource')->find($id);
 
         return View::make('posts.show', compact('post'));
 	}
@@ -125,6 +139,18 @@ class PostsController extends \BaseController {
         $post->body = Input::get('body');
         $post->created_at = Input::get('created_at');
         $post->save();
+
+        // Handle a file upload
+        if(Input::hasFile('file')){
+            $file = Input::file('file');
+            $file->move(public_path('uploads'), $file->getClientOriginalName());
+
+            $resource = $this->resource->create(
+                ['relative_path'=>$file->getClientOriginalName()]
+            );
+            $post->resource_id = $resource->id;
+            $post->save();
+        }
 
         return Redirect::route('posts.edit', $id);
 	}

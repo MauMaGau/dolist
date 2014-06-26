@@ -3,9 +3,9 @@
 @section('content')
 
         @if(empty($post->id))
-            {{ Form::open(['route'=>'posts.store', 'method'=>'post', 'class'=>'form-horizontal']) }}
+            {{ Form::open(['route'=>'posts.store', 'method'=>'post', 'class'=>'form-horizontal', 'files'=>true]) }}
         @else
-            {{ Form::open(['route'=>['posts.update', $post->id], 'method'=>'put', 'class'=>'form-horizontal']) }}
+            {{ Form::open(['route'=>['posts.update', $post->id], 'method'=>'put', 'class'=>'form-horizontal', 'files'=>true]) }}
         @endif
             <div class="form-group">
                 @if(empty($post->id))
